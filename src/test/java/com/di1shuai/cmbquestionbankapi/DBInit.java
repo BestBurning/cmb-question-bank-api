@@ -3,7 +3,7 @@ package com.di1shuai.cmbquestionbankapi;
 import com.di1shuai.questionbank.CmbQuestionBankApiApplication;
 import com.di1shuai.questionbank.entity.Question;
 import com.di1shuai.questionbank.repository.QuestionRepository;
-import com.di1shuai.questionbank.service.QuestionService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class DBInit {
 
     @Test
     public void init() throws IOException {
-        String path = QuestionService.class.getResource("/questions.txt").getPath();
+        String path = DBInit.class.getResource("/questions.txt").getPath();
         System.out.println(path);
         BufferedReader bufferedReader = null;
         try {
@@ -62,7 +62,8 @@ public class DBInit {
             });
 
             questionRepository.saveAll(list);
-
+            long count = questionRepository.count();
+            Assert.assertTrue(count > 100);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -71,6 +72,15 @@ public class DBInit {
                 bufferedReader.close();
             }
         }
+    }
+
+
+    @Test
+    public void cleanDB() {
+        questionRepository.deleteAll();
+        long count = questionRepository.count();
+        Assert.assertTrue(count == 0);
+
     }
 
 
