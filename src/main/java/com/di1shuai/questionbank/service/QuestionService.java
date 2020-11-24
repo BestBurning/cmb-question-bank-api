@@ -3,6 +3,7 @@ package com.di1shuai.questionbank.service;
 import com.di1shuai.questionbank.entity.Question;
 import com.di1shuai.questionbank.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 /**
  * @author: Shea
@@ -27,8 +29,9 @@ public class QuestionService {
 
     public List<Question> search(String keywords) {
         String[] strings = keywords.trim().split(" ");
-        Arrays.stream(strings).distinct().filter(s -> !s.equals(" "));
-        List<Question> all = questionRepository.findAll();
+        List<String> list = Arrays.stream(strings).distinct().filter(s -> !s.equals(" ")).collect(Collectors.toList());
+
+        List<Question> all = questionRepository.findAll(Example.of(new Question()));
 
         return all;
     }
