@@ -3,12 +3,10 @@ package com.di1shuai.cmbquestionbankapi;
 import com.di1shuai.questionbank.CmbQuestionBankApiApplication;
 import com.di1shuai.questionbank.entity.Question;
 import com.di1shuai.questionbank.repository.QuestionRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -24,7 +22,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * @description:
  */
 @SpringBootTest(classes = CmbQuestionBankApiApplication.class)
-@RunWith(SpringJUnit4ClassRunner.class)
 public class DBInit {
 
     @Autowired
@@ -63,7 +60,7 @@ public class DBInit {
 
             questionRepository.saveAll(list);
             long count = questionRepository.count();
-            Assert.assertTrue(count > 100);
+            Assert.isTrue(count > 100,"无法初始化数据");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -79,7 +76,7 @@ public class DBInit {
     public void cleanDB() {
         questionRepository.deleteAll();
         long count = questionRepository.count();
-        Assert.assertTrue(count == 0);
+        Assert.isTrue(count == 0,"无法清除数据");
 
     }
 

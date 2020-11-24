@@ -2,9 +2,13 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: cmb-question-bank-api
   elasticsearch:
     rest:
       uris: di1shuai-2:9200
+
+
 ---
 
 # local
@@ -13,6 +17,9 @@ spring:
     activate:
       on-profile: local
 
+logging:
+  file:
+    path: logs
 
 ---
 # dev
@@ -20,3 +27,7 @@ spring:
   config:
     activate:
       on-profile: dev
+
+logging:
+  file:
+    path: logs
