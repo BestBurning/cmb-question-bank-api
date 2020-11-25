@@ -18,11 +18,11 @@ jobs:
       - name: Build with Maven
         run: |
           mvn clean package -Dmaven.test.skip=true
-      - name: init env
+      - name: Init Env
         run: |
           DOCKER_PROJECT = docker images | grep cmb | awk 'NR==1 {print $1}'
           DOCKER_VERSION = docker images | grep cmb | awk 'NR==1 {print $2}'
-          echo "::set-env name=DOCKER_IMAGE_NAME::${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_ORGANIZTION}}/$DOCKER_PROJECT"
+          echo "DOCKER_IMAGE_NAME=${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_ORGANIZTION}}/$DOCKER_PROJECT" >> $GITHUB_ENV
       - name: Push Docker
         run: |
           docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} ${{secrets.DOCKER_REGISTRY}}
@@ -36,7 +36,7 @@ jobs:
     name: Pull Docker
     runs-on: ubuntu-latest
     steps:
-      - name: init env
+      - name: Init Env
         run: |
           DOCKER_PROJECT = docker images | grep cmb | awk 'NR==1 {print $1}'
           DOCKER_VERSION = docker images | grep cmb | awk 'NR==1 {print $2}'
