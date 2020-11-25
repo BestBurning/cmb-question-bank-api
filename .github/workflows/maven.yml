@@ -8,6 +8,8 @@ on:
 
 jobs:
   build:
+    env:
+      DOCKER_PROJECT: cmb-question-bank-api 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,8 +28,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Init Env
-        env:
-          DOCKER_PROJECT: cmb-question-bank-api   
         run: |
           echo "DOCKER_VERSION=`docker images | grep $DOCKER_PROJECT | awk 'NR==1 {print $2}'`" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_NAME=${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_ORGANIZTION}}/$DOCKER_PROJECT" >> $GITHUB_ENV
@@ -42,13 +42,13 @@ jobs:
 #          docker push $DOCKER_IMAGE_NAME:latest
 
   pull-docker:
+    env:
+      DOCKER_PROJECT: cmb-question-bank-api   
     needs: [build]
     name: Pull Docker
     runs-on: ubuntu-latest
     steps:
-      - name: Init Env
-        env:
-          DOCKER_PROJECT: cmb-question-bank-api   
+      - name: Init Env 
         run: |
           echo "DOCKER_VERSION=`docker images | grep $DOCKER_PROJECT | awk 'NR==1 {print $2}'`" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_NAME=${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_ORGANIZTION}}/$DOCKER_PROJECT" >> $GITHUB_ENV
