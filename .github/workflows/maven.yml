@@ -59,8 +59,12 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
+            docker ps
             docker stop $(docker ps --filter ancestor=$DOCKER_IMAGE_NAME -q)
+            docker ps
             docker rm -f $(docker ps -a --filter ancestor=$DOCKER_IMAGE_NAME:latest -q)
             docker rmi -f $(docker images  $DOCKER_IMAGE_NAME:latest -q)
+            docker images
             docker pull $DOCKER_IMAGE_NAME:latest
-            docker run -d -p 8081:8081 $DOCKER_IMAGE_NAME:latest
+            docker images
+            docker run --name $DOCKER_PROJECT:$DOCKER_VERSION -p 8081:8081 -d $DOCKER_IMAGE_NAME:latest
