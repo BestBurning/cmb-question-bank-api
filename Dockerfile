@@ -1,4 +1,5 @@
 FROM openjdk:11-jre
+MAINTAINER Shea<zhushuai026@gmail.com>
 
 VOLUME /tmp
 EXPOSE 8081
