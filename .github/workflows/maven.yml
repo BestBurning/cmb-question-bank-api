@@ -59,6 +59,7 @@ jobs:
           password: ${{ secrets.PWD }}
           port: ${{ secrets.PORT }}
           script: |
+            echo "$DOCKER_IMAGE_NAME"
             docker ps
             docker stop $(docker ps --filter ancestor=$DOCKER_IMAGE_NAME -q)
             docker ps
