@@ -17,7 +17,7 @@ jobs:
           java-version: 11
       - name: Build with Maven
         run: |
-          mvn clean package -Dmaven.test.skip=true
+          mvn package -Dmaven.test.skip=true
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -25,10 +25,15 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Init Env
+      - name: Init Env Project
         run: |
           echo "DOCKER_PROJECT=cmb-question-bank-api" >> $GITHUB_ENV
+      - name: Init Env Version
+        run: |
           echo "DOCKER_VERSION=`docker images | grep $DOCKER_PROJECT | awk 'NR==1 {print $2}'`" >> $GITHUB_ENV
+      - name: Init Env Name
+        run: |
+          echo "$DOCKER_PROJECT $DOCKER_VERSION"
           echo "DOCKER_IMAGE_NAME=${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_ORGANIZTION}}/$DOCKER_PROJECT" >> $GITHUB_ENV
       - name: Push Docker
         run: |
