@@ -27,8 +27,8 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Init Env
         run: |
-          echo "DOCKER_PROJECT=`docker images | grep cmb | awk 'NR==1 {print $1}'`" >> $GITHUB_ENV
-          echo "DOCKER_VERSION=`docker images | grep cmb | awk 'NR==1 {print $2}'`" >> $GITHUB_ENV
+          echo "DOCKER_PROJECT=cmb-question-bank-api" >> $GITHUB_ENV
+          echo "DOCKER_VERSION=`docker images | grep $DOCKER_PROJECT | awk 'NR==1 {print $2}'`" >> $GITHUB_ENV
           echo "DOCKER_IMAGE_NAME=${{secrets.DOCKER_REGISTRY}}/${{secrets.DOCKER_ORGANIZTION}}/$DOCKER_PROJECT" >> $GITHUB_ENV
       - name: Push Docker
         run: |
