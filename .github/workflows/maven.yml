@@ -15,6 +15,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Build with Maven
         run: |
           mvn clean package -Dmaven.test.skip=true
@@ -26,6 +33,7 @@ jobs:
       - name: Push Docker
         run: |
           docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}} ${{secrets.DOCKER_REGISTRY}}
+          docker images
           docker push $DOCKER_IMAGE_NAME:$DOCKER_VERSION
           docker tag $DOCKER_IMAGE_NAME:$DOCKER_VERSION $DOCKER_IMAGE_NAME:latest
           docker push $DOCKER_IMAGE_NAME:latest
