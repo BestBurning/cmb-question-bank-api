@@ -4,9 +4,6 @@ server:
 spring:
   application:
     name: cmb-question-bank-api
-  elasticsearch:
-    rest:
-      uris: di1shuai-2:9200
 
 
 ---
@@ -16,6 +13,9 @@ spring:
   config:
     activate:
       on-profile: local
+  elasticsearch:
+    rest:
+      uris: di1shuai-2:9200
 
 logging:
   file:
@@ -27,7 +27,10 @@ spring:
   config:
     activate:
       on-profile: dev
+  elasticsearch:
+    rest:
+      uris: elasticsearch:9200
 
 logging:
   file:
-    path: logs
+    path: /root/logs
