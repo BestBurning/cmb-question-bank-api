@@ -5,7 +5,11 @@ spring:
   application:
     name: cmb-question-bank-api
 
-
+logging:
+#  pattern.dateformat: yyyy-MM-dd HH:mm:ss.SSS
+  level:
+    root: INFO
+    org.springframework.data.convert.CustomConversions: ERROR
 ---
 
 # local
@@ -15,7 +19,7 @@ spring:
       on-profile: local
   elasticsearch:
     rest:
-      uris: di1shuai-2:9200
+      uris: http://di1shuai-2:9200
 
 logging:
   file:
